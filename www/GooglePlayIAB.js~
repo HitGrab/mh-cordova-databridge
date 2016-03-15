@@ -1,0 +1,28 @@
+var GooglePlayIAB = function () {
+    console.warn("GPLAYIAB CONSTRUCT");
+    this.options = {};
+};
+
+GooglePlayIAB.prototype.init = function (success, fail) {
+    console.warn("INIT");
+    return cordova.exec(success, fail, "GooglePlayIAB", "init", []);
+}
+
+
+GooglePlayIAB.prototype.create = function (success, fail, sku) {
+    console.warn("CREATE");
+    return cordova.exec(success, fail, "GooglePlayIAB", "create", [sku]);
+}
+
+GooglePlayIAB.prototype.list = function (success, fail) {
+    console.warn("LIST");
+    return cordova.exec(success, fail, "GooglePlayIAB", "list");
+}
+
+GooglePlayIAB.prototype.consume = function (success, fail) {
+    console.warn("CONSUME");
+    return cordova.exec(success, fail, "GooglePlayIAB", "consume");
+}
+
+
+module.exports = new GooglePlayIAB();
