@@ -1,0 +1,27 @@
+{
+  "name": "com.hitgrab.mousehunt.mhdatabridge",
+  "version": "0.2.7",
+  "description": "MouseHunt Data Bridge by HitGrab Inc.",
+  "cordova": {
+    "id": "com.hitgrab.mousehunt.mhdatabridge",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HitGrab/mh-cordova-databridge.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "author": "HitGrab",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HitGrab/mh-cordova-databridge/issues"
+  },
+  "homepage": "https://github.com/HitGrab/mh-cordova-databridge#readme"
+}
