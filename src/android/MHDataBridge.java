@@ -6,6 +6,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.helpshift.HelpshiftUser;
+import com.helpshift.support.ApiConfig;
+import com.helpshift.support.Metadata;
+import com.helpshift.util.HSJSONUtils;
 import com.hitgrab.android.mousehunt.widget.WidgetService;
 
 import android.content.Context;
@@ -18,6 +22,9 @@ import com.helpshift.Core;
 import com.helpshift.support.Support;
 import com.helpshift.InstallConfig;
 import com.helpshift.exceptions.InstallException;
+import org.apache.cordova.PluginResult;
+
+import java.util.HashMap;
 
 /**
  * Fetch a String's worth of data. Booleans will be returned as encoded strings,
@@ -84,12 +91,55 @@ public class MHDataBridge extends CordovaPlugin {
 			String domainName = args.getString(1);
 			String appID = args.getString(2);
 
-			install(apiKey, domainName, appID);
+			InstallConfig installConfig = new InstallConfig.Builder().build();
 
-         } else {
+			Core.init(Support.getInstance());
+
+			try {
+				Core.install(cordova.getActivity().getApplication(), apiKey, domainName, appID, installConfig);
+
+				callbackContext.sendPluginResult( new PluginResult(PluginResult.Status.OK, ""));
+
+			} catch (InstallException e) {
+				Log.e("MHDataBridge", "invalid install credentials : ", e);
+				callbackContext.error("");
+			}
+
+		} else if (action.equals("showFAQs")) {
+
+			HashMap<String,Object> config = new HashMap<String,Object>();
+			config = HSJSONUtils.toMap(args.getJSONObject(0));
+
+			Metadata metadata = new Metadata(config);
+
+			ApiConfig apiConfig = new ApiConfig.Builder().setCustomMetadata(metadata).build();
+
+			Support.showFAQs(cordova.getActivity(), apiConfig);
+
+			callbackContext.sendPluginResult( new PluginResult(PluginResult.Status.OK, ""));
+
+		} else if (action.equals("showConversation")) {
+
+			HashMap<String,Object> config = new HashMap<String,Object>();
+			config = HSJSONUtils.toMap(args.getJSONObject(0));
+
+			Metadata metadata = new Metadata(config);
+
+			ApiConfig apiConfig = new ApiConfig.Builder().setCustomMetadata(metadata).build();
+
+			Support.showConversation(cordova.getActivity(), apiConfig);
+
+			callbackContext.sendPluginResult( new PluginResult(PluginResult.Status.OK, ""));
+
+		} else if (action.equals("setUserIdentifier")) {
+			HelpshiftUser user = new HelpshiftUser.Builder(args.getString(0), "").build();
+			Core.login(user);
+			callbackContext.sendPluginResult( new PluginResult(PluginResult.Status.OK, ""));
+		} else {
 			//return new PluginResult(PluginResult.Status.INVALID_ACTION);
 			callbackContext.error("");
 			return false;
+
 		}
 
 		return false;
@@ -161,18 +211,5 @@ public class MHDataBridge extends CordovaPlugin {
 		}
 	}
 
-	private void install(String apiKey, String domainName, String appID) {
-
-		InstallConfig installConfig = new InstallConfig.Builder().build();
-
-		Core.init(Support.getInstance());
-		
-		try {
-			Core.install(cordova.getActivity().getApplication(), apiKey, domainName, appID, installConfig);
-		} catch (InstallException e) {
-			Log.e("MHDataBridge", "invalid install credentials : ", e);
-		}
-
-	}
 
 }
