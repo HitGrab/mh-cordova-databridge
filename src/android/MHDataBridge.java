@@ -1,16 +1,11 @@
 package com.hitgrab.android.mousehunt;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Iterator;
-
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.hitgrab.android.mousehunt.Callback;
 import com.hitgrab.android.mousehunt.widget.WidgetService;
 
 import android.content.Context;
@@ -18,6 +13,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.Build;
 
+import android.util.Log;
 import com.helpshift.Core;
 import com.helpshift.support.Support;
 import com.helpshift.InstallConfig;
@@ -84,18 +80,11 @@ public class MHDataBridge extends CordovaPlugin {
 			return true;
 
 		} else if (action.equals("install")) {
-         	String apiKey = arguments.getString(0);
-			String domainName = arguments.getString(1);
-			String appID = arguments.getString(2);
+         	String apiKey = args.getString(0);
+			String domainName = args.getString(1);
+			String appID = args.getString(2);
 
-			if (arguments.length() == 4) {
-				HashMap<String,Object> config = new HashMap<String,Object>();
-				config = HSJSONUtils.convertToHashMap(arguments.getJSONObject(3));
-				
-				install(apiKey, domainName, appID, config);
-			}
-
-			install(apiKey, domainName, appID, new HashMap());
+			install(apiKey, domainName, appID);
 
          } else {
 			//return new PluginResult(PluginResult.Status.INVALID_ACTION);
@@ -103,6 +92,7 @@ public class MHDataBridge extends CordovaPlugin {
 			return false;
 		}
 
+		return false;
 	}
 
 	private String fetch(String ident) {
@@ -171,14 +161,16 @@ public class MHDataBridge extends CordovaPlugin {
 		}
 	}
 
-	private void install(apiKey, domainName, appID, config) {
-		
+	private void install(String apiKey, String domainName, String appID) {
+
+		InstallConfig installConfig = new InstallConfig.Builder().build();
+
 		Core.init(Support.getInstance());
 		
 		try {
-			Core.install(this, apiKey, domainName, appID, config);
+			Core.install(cordova.getActivity().getApplication(), apiKey, domainName, appID, installConfig);
 		} catch (InstallException e) {
-			Log.e(TAG, "invalid install credentials : ", e);
+			Log.e("MHDataBridge", "invalid install credentials : ", e);
 		}
 
 	}
