@@ -135,21 +135,6 @@ public class MHDataBridge extends CordovaPlugin {
 		}
 	}
 
-	public static void addMessage(String command, String payload) {
-
-		if(command == null && payload == null) { return; }
-
-		JSONObject pack = new JSONObject();
-
-		try {
-			pack.put(EXTRA_KEY_COMMAND, command);
-			pack.put(EXTRA_KEY_PAYLOAD, payload);
-			messageStack.put(pack);
-		} catch (JSONException e) {
-			// whatever
-		}
-	}
-
 	/**
 	 * Returns current client version in format x.x.x, or
 	 * literally "0.0.0"
@@ -170,6 +155,22 @@ public class MHDataBridge extends CordovaPlugin {
 		return Integer.toString(this.cordova.getActivity().getPreferences(Context.MODE_PRIVATE).getInt("TOTAL_BOOTUPS", 0));
 	}
 
+
+	public static void addMessage(String command, String payload) {
+
+		if(command == null && payload == null) { return; }
+
+		JSONObject pack = new JSONObject();
+
+		try {
+			pack.put(EXTRA_KEY_COMMAND, command);
+			pack.put(EXTRA_KEY_PAYLOAD, payload);
+			messageStack.put(pack);
+		} catch (JSONException e) {
+			// whatever
+		}
+	}
+
 	private void install(apiKey, domainName, appID, config) {
 		
 		Core.init(Support.getInstance());
@@ -180,6 +181,6 @@ public class MHDataBridge extends CordovaPlugin {
 			Log.e(TAG, "invalid install credentials : ", e);
 		}
 
-	 }
+	}
 
 }
