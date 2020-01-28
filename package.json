@@ -1,6 +1,6 @@
 {
   "name": "com.hitgrab.mousehunt.mhdatabridge",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "MouseHunt Data Bridge by HitGrab Inc.",
   "cordova": {
     "id": "com.hitgrab.mousehunt.mhdatabridge",

@@ -3,17 +3,17 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
 xmlns:android="http://schemas.android.com/apk/res/android"
 id="com.hitgrab.mousehunt.mhdatabridge"
-    version="0.2.7">
+    version="0.2.8">
     <name>MouseHunt Data Bridge</name>
     <description>MouseHunt Data Bridge by HitGrab Inc.</description>
-	<!--
+    <!--
     <license>Apache 2.0</license>
     <keywords>cordova,media</keywords>
     <repo>https://git-wip-us.apache.org/repos/asf/cordova-plugin-media.git</repo>
     <issue>https://issues.apache.org/jira/browse/CB/component/12320647</issue>
-	-->
+    -->
 
-	<js-module src="www/MHDataBridge.js" name="MHDataBridge">
+    <js-module src="www/MHDataBridge.js" name="MHDataBridge">
         <clobbers target="window.MHDataBridge" />
     </js-module>
     
@@ -25,17 +25,27 @@ id="com.hitgrab.mousehunt.mhdatabridge"
             </feature>
         </config-file>
         
-		<source-file src="src/android/MHDataBridge.java" target-dir="src/com/hitgrab/android/mousehunt/" />
+        <source-file src="src/android/MHDataBridge.java" target-dir="src/com/hitgrab/android/mousehunt/" />
      </platform>
 
-	<platform name="ios">
-		<config-file target="config.xml" parent="/*">
-			<feature name="MHDataBridge">
-				<param name="ios-package" value="MHDataBridge"/>
-			</feature>
-		</config-file>
-		<header-file src="src/ios/MHDataBridge.h" />
-		<source-file src="src/ios/MHDataBridge.m" />
-	</platform>
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="MHDataBridge">
+                <param name="ios-package" value="MHDataBridge"/>
+            </feature>
+        </config-file>
+        <header-file src="src/ios/MHDataBridge.h" />
+        <source-file src="src/ios/MHDataBridge.m" />
+
+        <!-- Helpshift SDK -->
+        <podspec>
+            <config>
+                <source url="https://github.com/CocoaPods/Specs.git"/>
+            </config>
+            <pods use-frameworks="true">
+                <pod name="Helpshift" spec="7.6.3"/>
+            </pods>
+        </podspec>
+    </platform>
      
 </plugin>

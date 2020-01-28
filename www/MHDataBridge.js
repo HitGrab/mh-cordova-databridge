@@ -68,6 +68,48 @@ MHDataBridge.prototype = {
 		cordova.exec(callback, callback, "MHDataBridge", "seedWidget", [JSON.stringify(data)]);
 	},
 
+	/**
+	 * Helpshift - Installs the Helpshift SDK.
+	 */
+	install: function (apiKey, domainName, appId, options) {
+	    if (options && typeof options === "object") {
+	    	cordova.exec (null, null, "MHDataBridge", "install", [apiKey, domainName, appId, options]);
+	    } else {
+	      cordova.exec (null, null, "MHDataBridge", "install", [apiKey, domainName, appId]);
+	    }
+	},
+
+	/**
+	 * Helpshift - Shows FAQs. This will show list of sections with search.
+	 */
+	showFAQs: function (options) {
+	    if (options && typeof options === "object") {
+	    	cordova.exec (null, null, "MHDataBridge", "showFAQs", [options]);
+	    } else {
+	    	cordova.exec (null, null, "MHDataBridge", "showFAQs", []);
+	    }
+	},
+
+	/**
+	 * Helpshift - Show the Helpshift conversation screen.
+	 */
+	showConversation: function (options) {
+	    if (options && typeof options === "object") {
+	    	cordova.exec (null, null, "MHDataBridge", "showConversation", [options]);
+	    } else {
+	    	cordova.exec (null, null, "MHDataBridge", "showConversation", []);
+	    }
+	},
+
+	/**
+	 * Helpshift - (deprecated?).
+	 */
+	setUserIdentifier: function (userIdentifier) {
+		if (userIdentifier && typeof userIdentifier === "string") {
+			cordova.exec (null, null, "MHDataBridge", "setUserIdentifier", [userIdentifier]);
+		}
+	}
+
 };
 
 module.exports = new MHDataBridge();
