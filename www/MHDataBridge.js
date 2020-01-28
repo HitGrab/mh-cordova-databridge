@@ -108,7 +108,7 @@ MHDataBridge.prototype = {
 		if (userIdentifier && typeof userIdentifier === "string") {
 			cordova.exec (null, null, "MHDataBridge", "helpshiftLogin", [userIdentifier]);
 		}
-	}
+	},
 
 	/**
 	 * Helpshift - Logout.
