@@ -56,7 +56,7 @@
 
 // Helpshift functions
 
--(void)install:(CDVInvokedUrlCommand*)command {
+-(void)helpshiftInstall:(CDVInvokedUrlCommand*)command {
     NSString *apiKey = [command argumentAtIndex:0 ];
     NSString *domainName = [command argumentAtIndex:1 ];
     NSString *appId = [command argumentAtIndex:2 ];
@@ -70,7 +70,7 @@
                         withConfig:builder.build];
 }
 
-- (void) showFAQs:(CDVInvokedUrlCommand*)command {
+- (void) helpshiftShowFAQs:(CDVInvokedUrlCommand*)command {
     if([command.arguments count] > 0) {
         NSMutableDictionary *optionsDict = [[NSMutableDictionary alloc] init];
         optionsDict = [command argumentAtIndex:0 ];
@@ -86,7 +86,7 @@
     }
 }
 
-- (void) showConversation:(CDVInvokedUrlCommand*)command {
+- (void) helpshiftShowConversation:(CDVInvokedUrlCommand*)command {
     if([command.arguments count] > 0) {
         NSMutableDictionary *optionsDict = [[NSMutableDictionary alloc] init];
         optionsDict = [command argumentAtIndex:0 ];
@@ -102,9 +102,14 @@
     }
 }
 
-- (void) setUserIdentifier:(CDVInvokedUrlCommand *)command {
+- (void) helpshiftLogin:(CDVInvokedUrlCommand *)command {
     NSString *userIdentifier = [command argumentAtIndex:0 ];
-    [HelpshiftSupport setUserIdentifier:userIdentifier];
+
+    HelpshiftUserBuilder *userBuilder = [[HelpshiftUserBuilder alloc] initWithIdentifier:userIdentifier];
+}
+
+- (void) helpshiftLogout:() {
+    [HelpshiftCore logout];
 }
 
 @end

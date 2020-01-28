@@ -86,7 +86,7 @@ public class MHDataBridge extends CordovaPlugin {
 
 			return true;
 
-		} else if (action.equals("install")) {
+		} else if (action.equals("helpshiftInstall")) {
          	String apiKey = args.getString(0);
 			String domainName = args.getString(1);
 			String appID = args.getString(2);
@@ -105,7 +105,7 @@ public class MHDataBridge extends CordovaPlugin {
 				callbackContext.error("");
 			}
 
-		} else if (action.equals("showFAQs")) {
+		} else if (action.equals("helpshiftShowFAQs")) {
 
 			HashMap<String,Object> config = new HashMap<String,Object>();
 			config = HSJSONUtils.toMap(args.getJSONObject(0));
@@ -118,7 +118,7 @@ public class MHDataBridge extends CordovaPlugin {
 
 			callbackContext.sendPluginResult( new PluginResult(PluginResult.Status.OK, ""));
 
-		} else if (action.equals("showConversation")) {
+		} else if (action.equals("helpshiftShowConversation")) {
 
 			HashMap<String,Object> config = new HashMap<String,Object>();
 			config = HSJSONUtils.toMap(args.getJSONObject(0));
@@ -131,10 +131,12 @@ public class MHDataBridge extends CordovaPlugin {
 
 			callbackContext.sendPluginResult( new PluginResult(PluginResult.Status.OK, ""));
 
-		} else if (action.equals("setUserIdentifier")) {
+		} else if (action.equals("helpshiftLogin")) {
 			HelpshiftUser user = new HelpshiftUser.Builder(args.getString(0), "").build();
 			Core.login(user);
 			callbackContext.sendPluginResult( new PluginResult(PluginResult.Status.OK, ""));
+		} else if (action.equals("helpshiftLogout")) {
+			Core.logout();
 		} else {
 			//return new PluginResult(PluginResult.Status.INVALID_ACTION);
 			callbackContext.error("");
