@@ -8,9 +8,10 @@
 - (void)fetchMessages:(CDVInvokedUrlCommand*)command;
 
 // Helpshift
-- (void)install :(CDVInvokedUrlCommand*)command;
-- (void) showFAQs:(CDVInvokedUrlCommand*)command;
-- (void) showConversation:(CDVInvokedUrlCommand*)command;
-- (void) setUserIdentifier:(CDVInvokedUrlCommand *)command;
+- (void) helpshiftInstall :(CDVInvokedUrlCommand*)command;
+- (void) helpshiftShowFAQs:(CDVInvokedUrlCommand*)command;
+- (void) helpshiftShowConversation:(CDVInvokedUrlCommand*)command;
+- (void) helpshiftLogin:(CDVInvokedUrlCommand *)command;
+- (void) helpshiftLogout:(CDVInvokedUrlCommand*)command;
 
 @end

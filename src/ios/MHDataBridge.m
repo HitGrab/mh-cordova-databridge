@@ -110,7 +110,7 @@
     [HelpshiftCore login:user];
 }
 
-- (void) helpshiftLogout {
+- (void) helpshiftLogout:(CDVInvokedUrlCommand*)command {
     [HelpshiftCore logout];
 }
 
