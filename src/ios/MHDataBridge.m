@@ -104,11 +104,13 @@
 
 - (void) helpshiftLogin:(CDVInvokedUrlCommand *)command {
     NSString *userIdentifier = [command argumentAtIndex:0 ];
-
-    HelpshiftUserBuilder *userBuilder = [[HelpshiftUserBuilder alloc] initWithIdentifier:userIdentifier];
+    
+    HelpshiftUserBuilder *userBuilder = [[HelpshiftUserBuilder alloc] initWithIdentifier:userIdentifier andEmail:@""];
+    HelpshiftUser *user = userBuilder.build;
+    [HelpshiftCore login:user];
 }
 
-- (void) helpshiftLogout:() {
+- (void) helpshiftLogout {
     [HelpshiftCore logout];
 }
 
