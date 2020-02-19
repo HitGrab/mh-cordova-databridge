@@ -5,18 +5,19 @@ MHDataBridge.prototype = {
 
 	/**
 	 * Logs an event of the given event name
-	 *
+	 * Disabled for now to remove warnings (~parhamt)
+	 * 
 	 * @param eventName (String)	String of the event name to log.
 	 * @param data		(Object)	Object of extra data, may pass null
 	 */
 	logEvent: function (eventName, data) {
 
-		var nothing = function(){};
-		if(typeof data === 'undefined' || data == null) {
-			data = {};
-		}
+		// var nothing = function(){};
+		// if(typeof data === 'undefined' || data == null) {
+		// 	data = {};
+		// }
 
-		cordova.exec(nothing, nothing, "MHDataBridge", "logEvent", [eventName, data]);
+		// cordova.exec(nothing, nothing, "MHDataBridge", "logEvent", [eventName, data]);
 	},
 
 	logRevenueEvent: function (externalSku, itemCategory, revenue) {
@@ -66,13 +67,6 @@ MHDataBridge.prototype = {
 			callback = function() {};
 		}
 		cordova.exec(callback, callback, "MHDataBridge", "seedWidget", [JSON.stringify(data)]);
-	},
-
-	/**
-	 * Used for event tracker. Does nothing for now (~parhamt).
-	 */
-	logEvent: function() {
-		
 	},
 
 	/**
