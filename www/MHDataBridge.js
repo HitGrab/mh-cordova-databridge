@@ -69,6 +69,13 @@ MHDataBridge.prototype = {
 	},
 
 	/**
+	 * Used for event tracker. Does nothing for now (~parhamt).
+	 */
+	logEvent: function() {
+		
+	},
+
+	/**
 	 * Helpshift - Installs the Helpshift SDK.
 	 */
 	helpshiftInstall: function (apiKey, domainName, appId, options) {
