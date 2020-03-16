@@ -43,6 +43,7 @@ public class MHDataBridge extends CordovaPlugin {
 
 	@Override
 	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+		
 		if (action.equals("fetch")) {
 
 			JSONObject output = new JSONObject();
@@ -66,7 +67,9 @@ public class MHDataBridge extends CordovaPlugin {
 			//return new PluginResult(PluginResult.Status.OK, outputMessageStack);
 			callbackContext.success(outputMessageStack);
 			return true;
+
 		} else if (action.equals("seedWidget")) {
+
 			String raw = args.getString(0);
 			if (raw != null && raw.length() > 0) {
 
@@ -87,6 +90,7 @@ public class MHDataBridge extends CordovaPlugin {
 			return true;
 
 		} else if (action.equals("helpshiftInstall")) {
+
          	String apiKey = args.getString(0);
 			String domainName = args.getString(1);
 			String appID = args.getString(2);
@@ -132,13 +136,25 @@ public class MHDataBridge extends CordovaPlugin {
 			callbackContext.sendPluginResult( new PluginResult(PluginResult.Status.OK, ""));
 
 		} else if (action.equals("helpshiftLogin")) {
+
 			HelpshiftUser user = new HelpshiftUser.Builder(args.getString(0), "").build();
 			Core.login(user);
 			callbackContext.sendPluginResult( new PluginResult(PluginResult.Status.OK, ""));
+
 		} else if (action.equals("helpshiftLogout")) {
+
 			Core.logout();
+
+		} else if (action.equals("helpshiftRegisterDeviceToken")) {
+
+			Context context = this.cordova.getActivity().getApplicationContext();
+			String regid = args.getString(0);
+
+			// Send registrationId to Helpshift
+			Core.registerDeviceToken(context, regid);
+
 		} else {
-			//return new PluginResult(PluginResult.Status.INVALID_ACTION);
+			// Return new PluginResult(PluginResult.Status.INVALID_ACTION);
 			callbackContext.error("");
 			return false;
 

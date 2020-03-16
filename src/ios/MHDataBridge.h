@@ -13,5 +13,6 @@
 - (void) helpshiftShowConversation:(CDVInvokedUrlCommand*)command;
 - (void) helpshiftLogin:(CDVInvokedUrlCommand *)command;
 - (void) helpshiftLogout:(CDVInvokedUrlCommand*)command;
+- (void) registerDeviceToken:(CDVInvokedUrlCommand*)command;
 
 @end

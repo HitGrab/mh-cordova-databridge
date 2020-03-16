@@ -99,7 +99,16 @@ MHDataBridge.prototype = {
 	 */
 	helpshiftLogout: function () {
 		cordova.exec (null, null, "MHDataBridge", "helpshiftLogout", []);
-	}
+	},
+
+	/**
+	 * Helpshift - Enable Push Notifications
+	 */
+	helpshiftRegisterDeviceToken: function(regstrationID) {
+		if (regstrationID && typeof regstrationID === "string") {
+	    	cordova.exec (null, null, "MHDataBridge", "helpshiftRegisterDeviceToken", [regstrationID]);
+		}
+	},
 
 };
 

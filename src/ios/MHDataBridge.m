@@ -114,5 +114,9 @@
     [HelpshiftCore logout];
 }
 
+- (void) registerDeviceToken:(CDVInvokedUrlCommand*)command {
+    [HelpshiftCore registerDeviceToken:[command argumentAtIndex:0 ]];
+}
+
 @end
 
