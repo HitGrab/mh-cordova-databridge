@@ -3,22 +3,6 @@ var MHDataBridge = function() {};
 
 MHDataBridge.prototype = {
 
-	/**
-	 * Logs an event of the given event name
-	 *
-	 * @param eventName (String)	String of the event name to log.
-	 * @param data		(Object)	Object of extra data, may pass null
-	 */
-	logEvent: function (eventName, data) {
-
-		var nothing = function(){};
-		if(typeof data === 'undefined' || data == null) {
-			data = {};
-		}
-
-		cordova.exec(nothing, nothing, "MHDataBridge", "logEvent", [eventName, data]);
-	},
-
 	logRevenueEvent: function (externalSku, itemCategory, revenue) {
 		var nothing = function(){};
 		cordova.exec(nothing, nothing, "MHDataBridge", "logRevenueEvent", [externalSku, itemCategory, revenue]);
@@ -66,6 +50,64 @@ MHDataBridge.prototype = {
 			callback = function() {};
 		}
 		cordova.exec(callback, callback, "MHDataBridge", "seedWidget", [JSON.stringify(data)]);
+	},
+
+	/**
+	 * Helpshift - Installs the Helpshift SDK.
+	 */
+	helpshiftInstall: function (apiKey, domainName, appId, options) {
+	    if (options && typeof options === "object") {
+	    	cordova.exec (null, null, "MHDataBridge", "helpshiftInstall", [apiKey, domainName, appId, options]);
+	    } else {
+	      cordova.exec (null, null, "MHDataBridge", "helpshiftInstall", [apiKey, domainName, appId]);
+	    }
+	},
+
+	/**
+	 * Helpshift - Shows FAQs. This will show list of sections with search.
+	 */
+	helpshiftShowFAQs: function (options) {
+	    if (options && typeof options === "object") {
+	    	cordova.exec (null, null, "MHDataBridge", "helpshiftShowFAQs", [options]);
+	    } else {
+	    	cordova.exec (null, null, "MHDataBridge", "helpshiftShowFAQs", []);
+	    }
+	},
+
+	/**
+	 * Helpshift - Show the Helpshift conversation screen.
+	 */
+	helpshiftShowConversation: function (options) {
+	    if (options && typeof options === "object") {
+	    	cordova.exec (null, null, "MHDataBridge", "helpshiftShowConversation", [options]);
+	    } else {
+	    	cordova.exec (null, null, "MHDataBridge", "helpshiftShowConversation", []);
+	    }
+	},
+
+	/**
+	 * Helpshift - Login. setUserIdentifier() is now deprecated and replaced by the new Login() and Logout() methods.
+	 */
+	helpshiftLogin: function (userIdentifier) {
+		if (userIdentifier && typeof userIdentifier === "string") {
+			cordova.exec (null, null, "MHDataBridge", "helpshiftLogin", [userIdentifier]);
+		}
+	},
+
+	/**
+	 * Helpshift - Logout.
+	 */
+	helpshiftLogout: function () {
+		cordova.exec (null, null, "MHDataBridge", "helpshiftLogout", []);
+	},
+
+	/**
+	 * Helpshift - Enable Push Notifications
+	 */
+	helpshiftRegisterDeviceToken: function(regstrationID) {
+		if (regstrationID && typeof regstrationID === "string") {
+	    	cordova.exec (null, null, "MHDataBridge", "helpshiftRegisterDeviceToken", [regstrationID]);
+		}
 	},
 
 };
