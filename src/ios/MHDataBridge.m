@@ -72,14 +72,13 @@
 
 - (void) helpshiftShowFAQs:(CDVInvokedUrlCommand*)command {
     if([command.arguments count] > 0) {
-        NSMutableDictionary *optionsDict = [[NSMutableDictionary alloc] init];
-        optionsDict = [command argumentAtIndex:0 ];
+        
+        NSDictionary *myarg = [command.arguments objectAtIndex:0];
         
         // Add custom metadata
         HelpshiftAPIConfigBuilder *builder = [[HelpshiftAPIConfigBuilder alloc] init];
-        builder.customMetaData = [[HelpshiftSupportMetaData alloc] initWithMetaData:optionsDict];
+        builder.customMetaData = [[HelpshiftSupportMetaData alloc] initWithMetaData:myarg];
         HelpshiftAPIConfig *apiConfig = [builder build];
-        
         [HelpshiftSupport showFAQs:self.viewController withConfig:apiConfig];
     } else {
         [HelpshiftSupport showFAQs:self.viewController withConfig:nil];
@@ -88,12 +87,12 @@
 
 - (void) helpshiftShowConversation:(CDVInvokedUrlCommand*)command {
     if([command.arguments count] > 0) {
-        NSMutableDictionary *optionsDict = [[NSMutableDictionary alloc] init];
-        optionsDict = [command argumentAtIndex:0 ];
+        
+        NSDictionary *myarg = [command.arguments objectAtIndex:0];
 
         // Add custom metadata
         HelpshiftAPIConfigBuilder *builder = [[HelpshiftAPIConfigBuilder alloc] init];
-        builder.customMetaData = [[HelpshiftSupportMetaData alloc] initWithMetaData:optionsDict];
+        builder.customMetaData = [[HelpshiftSupportMetaData alloc] initWithMetaData:myarg];
         HelpshiftAPIConfig *apiConfig = [builder build];
 
         [HelpshiftSupport showConversation:self.viewController withConfig:apiConfig];
