@@ -176,18 +176,21 @@ public class MHDataBridge extends CordovaPlugin {
 		 * (see isAppNative for an example)
 		 *
 		 */
-		if(ident.equals("isAppNative")) {
+		if (ident.equals("isAppNative")) {
 			return "true";
-		} if(ident.equals("operatingSystem")) {
+		} if (ident.equals("operatingSystem")) {
 			return "android";
-		} if(ident.equals("appStore")) {
+		} if (ident.equals("appStore")) {
 			return "google";
-		} if(ident.equals("clientVersion")) {
+		} if (ident.equals("clientVersion")) {
 			return getClientVersion();
-		} if(ident.equals("isEmulator")) {
+		} if (ident.equals("isEmulator")) {
 			return Build.FINGERPRINT.startsWith("generic") ? "true" : "false";
-		} if(ident.equals("numNativeBootups")) {
+		} if (ident.equals("numNativeBootups")) {
 			return getNumBootups();
+		} if (ident.equals("packageName")) {
+			Context context = this.cordova.getActivity();
+			return context.getPackageName();
 		} else {
 			return null;
 		}
