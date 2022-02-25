@@ -76,10 +76,13 @@ MHDataBridge.prototype = {
 
 	/**
 	 * Helpshift - Show the Helpshift conversation screen.
+	 * @param  Object options
+	 * @param  String prefillText optional
+	 * @return Void
 	 */
-	helpshiftShowConversation: function (options) {
+	helpshiftShowConversation: function (options, prefillText="") {
 	    if (options && typeof options === "object") {
-	    	cordova.exec (null, null, "MHDataBridge", "helpshiftShowConversation", [options]);
+	    	cordova.exec (null, null, "MHDataBridge", "helpshiftShowConversation", [options, prefillText]);
 	    } else {
 	    	cordova.exec (null, null, "MHDataBridge", "helpshiftShowConversation", []);
 	    }

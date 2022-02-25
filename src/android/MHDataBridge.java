@@ -128,8 +128,12 @@ public class MHDataBridge extends CordovaPlugin {
 			config = HSJSONUtils.toMap(args.getJSONObject(0));
 
 			Metadata metadata = new Metadata(config);
+			String prefillText = args.getString(1);
 
-			ApiConfig apiConfig = new ApiConfig.Builder().setCustomMetadata(metadata).build();
+			ApiConfig apiConfig = new ApiConfig.Builder()
+					.setCustomMetadata(metadata)
+					.setConversationPrefillText(prefillText)
+					.build();
 
 			Support.showConversation(cordova.getActivity(), apiConfig);
 

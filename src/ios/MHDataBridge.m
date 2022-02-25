@@ -88,11 +88,18 @@
 - (void) helpshiftShowConversation:(CDVInvokedUrlCommand*)command {
     if([command.arguments count] > 0) {
         
-        NSDictionary *myarg = [command.arguments objectAtIndex:0];
+        NSString *metdaData = [command.arguments objectAtIndex:0 ];
+        NSString *prefillText = [command argumentAtIndex:1 ];
 
         // Add custom metadata
         HelpshiftAPIConfigBuilder *builder = [[HelpshiftAPIConfigBuilder alloc] init];
-        builder.customMetaData = [[HelpshiftSupportMetaData alloc] initWithMetaData:myarg];
+        builder.customMetaData = [[HelpshiftSupportMetaData alloc] initWithMetaData:metdaData];
+        
+        // Add prefill text if is not empty
+        if ([prefillText length] != 0) {
+            builder.conversationPrefillText = prefillText;
+        }
+
         HelpshiftAPIConfig *apiConfig = [builder build];
 
         [HelpshiftSupport showConversation:self.viewController withConfig:apiConfig];
