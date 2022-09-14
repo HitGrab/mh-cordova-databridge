@@ -1,6 +1,5 @@
 #import "MHDataBridge.h"
-#import "HelpshiftCore.h"
-#import "HelpshiftSupport.h"
+@import Helpshift;
 #import <Cordova/CDV.h>
 
 @implementation MHDataBridge

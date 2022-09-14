@@ -49,7 +49,7 @@ id="com.hitgrab.mousehunt.mhdatabridge"
                 <source url="https://github.com/CocoaPods/Specs.git"/>
             </config>
             <pods use-frameworks="true">
-                <pod name="Helpshift" spec="7.6.3"/>
+                <pod name="Helpshift" spec="7.10.0"/>
             </pods>
         </podspec>
     </platform>
