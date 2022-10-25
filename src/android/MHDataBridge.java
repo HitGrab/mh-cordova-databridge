@@ -10,7 +10,8 @@ import com.helpshift.HelpshiftUser;
 import com.helpshift.support.ApiConfig;
 import com.helpshift.support.Metadata;
 import com.helpshift.util.HSJSONUtils;
-import com.hitgrab.android.mousehunt.widget.WidgetService;
+import com.hitgrab.android.mousehunt.widget.MouseHuntWidgetProvider;
+import com.hitgrab.android.mousehunt.widget.WidgetController;
 
 import android.content.Context;
 import android.content.Intent;
@@ -73,15 +74,16 @@ public class MHDataBridge extends CordovaPlugin {
 			String raw = args.getString(0);
 			if (raw != null && raw.length() > 0) {
 
-				// Configure the service
 				Context context = this.cordova.getActivity().getApplicationContext();
-				Intent intent = new Intent(context, WidgetService.class);
-				intent.setAction(WidgetService.ACTION_SEED);
+
+				Intent intent = new Intent(context, MouseHuntWidgetProvider.class);
+				intent.setAction(WidgetController.ACTION_SEED);
 				payloadCache = raw;
 				intent.putExtra("payload", raw);
-				context.startService(intent);
+				// Send an intent to MouseHuntWidgetProvider where it listens for broadcasts, save user data
+				context.sendBroadcast(intent);
 
-				// return new PluginResult(PluginResult.Status.OK);
+				// Return new PluginResult(PluginResult.Status.OK);
 				callbackContext.success();
 			} else {
 				callbackContext.error("");
