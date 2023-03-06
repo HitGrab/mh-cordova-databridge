@@ -26,10 +26,7 @@ id="com.hitgrab.mousehunt.mhdatabridge"
         </config-file>
 
         <!-- Helpshift Android SDK using gradle -->
-        <framework src="com.android.support:design:28.0.0" />
-        <framework src="com.android.support:recyclerview-v7:28.0.0" />
-        <framework src="com.android.support:cardview-v7:28.0.0" />
-        <framework src="com.helpshift:android-helpshift-aar:7.6.3" />
+        <framework src="com.helpshift:helpshift-sdkx:10.1.0" />
         
         <source-file src="src/android/MHDataBridge.java" target-dir="src/com/hitgrab/android/mousehunt/" />
      </platform>
@@ -49,7 +46,7 @@ id="com.hitgrab.mousehunt.mhdatabridge"
                 <source url="https://github.com/CocoaPods/Specs.git"/>
             </config>
             <pods use-frameworks="true">
-                <pod name="Helpshift" spec="7.10.0"/>
+                <pod name="HelpshiftX" spec="10.2.1"/>
             </pods>
         </podspec>
     </platform>
