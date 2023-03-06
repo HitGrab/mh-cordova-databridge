@@ -6,10 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.helpshift.HelpshiftUser;
-import com.helpshift.support.ApiConfig;
-import com.helpshift.support.Metadata;
-import com.helpshift.util.HSJSONUtils;
+import com.helpshift.Helpshift;
+import com.helpshift.UnsupportedOSVersionException;
 import com.hitgrab.android.mousehunt.widget.MouseHuntWidgetProvider;
 import com.hitgrab.android.mousehunt.widget.WidgetController;
 
@@ -19,13 +17,11 @@ import android.content.pm.PackageInfo;
 import android.os.Build;
 
 import android.util.Log;
-import com.helpshift.Core;
-import com.helpshift.support.Support;
-import com.helpshift.InstallConfig;
-import com.helpshift.exceptions.InstallException;
 import org.apache.cordova.PluginResult;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Fetch a String's worth of data. Booleans will be returned as encoded strings,
@@ -93,71 +89,66 @@ public class MHDataBridge extends CordovaPlugin {
 
 		} else if (action.equals("helpshiftInstall")) {
 
-         	String apiKey = args.getString(0);
+//         	String apiKey = args.getString(0);
 			String domainName = args.getString(1);
 			String appID = args.getString(2);
 
-			InstallConfig installConfig = new InstallConfig.Builder().build();
-
-			Core.init(Support.getInstance());
+			Map<String, Object> config = Collections.emptyMap();
 
 			try {
-				Core.install(cordova.getActivity().getApplication(), apiKey, domainName, appID, installConfig);
+				Helpshift.install(cordova.getActivity().getApplication(),
+						appID,
+						domainName,
+						config);
 
 				callbackContext.sendPluginResult( new PluginResult(PluginResult.Status.OK, ""));
-
-			} catch (InstallException e) {
-				Log.e("MHDataBridge", "invalid install credentials : ", e);
+			} catch (UnsupportedOSVersionException e) {
+				// Android OS versions prior to Lollipop (< SDK 21) are not supported.
+				Log.e("MHDataBridge", "Android OS versions prior to Lollipop (< SDK 21) are not supported : ", e);
 				callbackContext.error("");
 			}
 
 		} else if (action.equals("helpshiftShowFAQs")) {
 
-			HashMap<String,Object> config = new HashMap<String,Object>();
-			config = HSJSONUtils.toMap(args.getJSONObject(0));
+			HashMap<String, Object> config = new HashMap<>();
+			config.put("customMetadata", args.getJSONObject(0));
 
-			Metadata metadata = new Metadata(config);
-
-			ApiConfig apiConfig = new ApiConfig.Builder().setCustomMetadata(metadata).build();
-
-			Support.showFAQs(cordova.getActivity(), apiConfig);
-
+			Helpshift.showFAQs(cordova.getActivity(), config);
 			callbackContext.sendPluginResult( new PluginResult(PluginResult.Status.OK, ""));
 
 		} else if (action.equals("helpshiftShowConversation")) {
 
-			HashMap<String,Object> config = new HashMap<String,Object>();
-			config = HSJSONUtils.toMap(args.getJSONObject(0));
+			// Pre-fill text Currently unsupported by SDK X
+//			String prefillText = args.getString(1);
 
-			Metadata metadata = new Metadata(config);
-			String prefillText = args.getString(1);
+			HashMap<String, Object> config = new HashMap<>();
+			config.put("customMetadata", args.getJSONObject(0));
 
-			ApiConfig apiConfig = new ApiConfig.Builder()
-					.setCustomMetadata(metadata)
-					.setConversationPrefillText(prefillText)
-					.build();
-
-			Support.showConversation(cordova.getActivity(), apiConfig);
-
+			Helpshift.showConversation(cordova.getActivity(), config);
 			callbackContext.sendPluginResult( new PluginResult(PluginResult.Status.OK, ""));
 
 		} else if (action.equals("helpshiftLogin")) {
 
-			HelpshiftUser user = new HelpshiftUser.Builder(args.getString(0), "").build();
-			Core.login(user);
+			Map<String, String> userData = new HashMap<>();
+			userData.put("userId", args.getString(0));
+			userData.put("userEmail", "");
+			userData.put("userName", "");
+			userData.put("userAuthToken", "");
+
+			Helpshift.login(userData);
+
 			callbackContext.sendPluginResult( new PluginResult(PluginResult.Status.OK, ""));
 
 		} else if (action.equals("helpshiftLogout")) {
 
-			Core.logout();
+			Helpshift.logout();
 
 		} else if (action.equals("helpshiftRegisterDeviceToken")) {
 
-			Context context = this.cordova.getActivity().getApplicationContext();
-			String regid = args.getString(0);
+			String regId = args.getString(0);
 
 			// Send registrationId to Helpshift
-			Core.registerDeviceToken(context, regid);
+			Helpshift.registerPushToken(regId);
 
 		} else {
 			// Return new PluginResult(PluginResult.Status.INVALID_ACTION);

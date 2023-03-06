@@ -1,5 +1,5 @@
 #import "MHDataBridge.h"
-@import Helpshift;
+@import HelpshiftX;
 #import <Cordova/CDV.h>
 
 @implementation MHDataBridge
@@ -56,17 +56,13 @@
 // Helpshift functions
 
 -(void)helpshiftInstall:(CDVInvokedUrlCommand*)command {
-    NSString *apiKey = [command argumentAtIndex:0 ];
+//    NSString *apiKey = [command argumentAtIndex:0 ];
     NSString *domainName = [command argumentAtIndex:1 ];
     NSString *appId = [command argumentAtIndex:2 ];
     
-    [HelpshiftCore initializeWithProvider:[HelpshiftSupport sharedInstance]];
-    HelpshiftInstallConfigBuilder *builder = [[HelpshiftInstallConfigBuilder alloc] init];
-    builder.enableAutomaticThemeSwitching = YES;
-    [HelpshiftCore installForApiKey:apiKey
-                        domainName:domainName
-                        appID:appId
-                        withConfig:builder.build];
+    [Helpshift installWithPlatformId:appId
+                                  domain:domainName
+                                  config:[NSMutableDictionary dictionary]];
 }
 
 - (void) helpshiftShowFAQs:(CDVInvokedUrlCommand*)command {
@@ -74,13 +70,12 @@
         
         NSDictionary *myarg = [command.arguments objectAtIndex:0];
         
-        // Add custom metadata
-        HelpshiftAPIConfigBuilder *builder = [[HelpshiftAPIConfigBuilder alloc] init];
-        builder.customMetaData = [[HelpshiftSupportMetaData alloc] initWithMetaData:myarg];
-        HelpshiftAPIConfig *apiConfig = [builder build];
-        [HelpshiftSupport showFAQs:self.viewController withConfig:apiConfig];
+        NSDictionary *config = @{ @"customMetadata" : myarg };
+        [Helpshift showFAQsWith:self.viewController config:config];
+        
+        
     } else {
-        [HelpshiftSupport showFAQs:self.viewController withConfig:nil];
+        [Helpshift showFAQsWith:self.viewController config:[NSMutableDictionary dictionary]];
     }
 }
 
@@ -88,39 +83,42 @@
     if([command.arguments count] > 0) {
         
         NSString *metaData = [command.arguments objectAtIndex:0 ];
-        NSString *prefillText = [command argumentAtIndex:1 ];
-
-        // Add custom metadata
-        HelpshiftAPIConfigBuilder *builder = [[HelpshiftAPIConfigBuilder alloc] init];
-        builder.customMetaData = [[HelpshiftSupportMetaData alloc] initWithMetaData:metaData];
+//        NSString *prefillText = [command argumentAtIndex:1 ];
         
-        // Add prefill text if is not empty
-        if ([prefillText length] != 0) {
-            builder.conversationPrefillText = prefillText;
-        }
-
-        HelpshiftAPIConfig *apiConfig = [builder build];
-
-        [HelpshiftSupport showConversation:self.viewController withConfig:apiConfig];
+        NSMutableDictionary *config = [[NSMutableDictionary alloc] init];
+        
+        config[@"customMetadata"] = metaData;
+        /*
+         Pre-fill text currently unsupported by new HelpShift SDK X.
+         Leaving commented to implement once future support arrives. (~parhamt)
+         */
+//        if ([prefillText length] != 0) {
+//            config[@"conversationPrefillText"] = prefillText;
+//        }
+        
+        [Helpshift showConversationWith:self.viewController config:config];
     } else {
-        [HelpshiftSupport showConversation:self.viewController withConfig:nil];
+        [Helpshift showConversationWith:self.viewController config:[NSMutableDictionary dictionary]];
     }
 }
 
 - (void) helpshiftLogin:(CDVInvokedUrlCommand *)command {
     NSString *userIdentifier = [command argumentAtIndex:0 ];
     
-    HelpshiftUserBuilder *userBuilder = [[HelpshiftUserBuilder alloc] initWithIdentifier:userIdentifier andEmail:@""];
-    HelpshiftUser *user = userBuilder.build;
-    [HelpshiftCore login:user];
+    NSDictionary *userDetails = @{ HelpshiftUserName:@"",
+                                   HelpshiftUserEmail:@"",
+                                   HelpshiftUserIdentifier:userIdentifier,
+                                   HelpshiftUserAuthToken:@"" };
+    
+    [Helpshift loginUser:userDetails];
 }
 
 - (void) helpshiftLogout:(CDVInvokedUrlCommand*)command {
-    [HelpshiftCore logout];
+    [Helpshift logout];
 }
 
 - (void) registerDeviceToken:(CDVInvokedUrlCommand*)command {
-    [HelpshiftCore registerDeviceToken:[command argumentAtIndex:0 ]];
+    [Helpshift registerDeviceToken:[command argumentAtIndex:0 ]];
 }
 
 @end
